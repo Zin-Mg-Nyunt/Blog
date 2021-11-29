@@ -16,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('blogs');
 });
-Route::get('/blog/{blog}', function ($fileName) { //{} (wildcard)အတွန့်ကွင်းထဲက blog က url ထဲမှာ ပါလာတယ့်ဟာကို dynamic ကျကျလက်ခံပေးမယ့်ကောင်။ ပြီးတော့ laravel က အဲ့ကောင်ကို function ထဲကို parameter တစ်ခုအနေနဲ့ထည့်ပေးလိုက်တယ်။
-    $path=__DIR__."/../resources/blogs/$fileName.html"; // ဒါက file လမ်းကြောင်း
-    $blog=file_get_contents($path); // file_get_contents() က file တွေကိုလှမ်းဆွဲတယ့် function။ အထဲမှာ (file လမ်းကြောင်း/file name) ကို string အနေနဲ့ထည့်ပေးရတယ်။
+Route::get('/blog/{blog}', function ($fileName) {
+    $path=__DIR__."/../resources/blogs/$fileName.html"; // ဒါက (file လမ်းကြောင်း/file name)
+    //အကယ်၍ user က မရှိတယ့် routes တစ်ခု/file လမ်းကြောင်းတစ်ခုကို ပေးခဲ့ရင် error မတက်အောင် file လမ်းကြောင်းကို ဆွဲထုတ်တဲ့အဆင့်မရောက်ခင်မှာ if နဲ့စစ်ထားသင့်တယ်။
+    if (!file_exists($path)) { // file_exists က အဲ့ (file လမ်းကြောင်း/file name) ရှိ/မရှိစစ်တာ
+        abort(404); // abort က 404 page ကိုပြဖို့သုံးတာ။ပြီးရင် အောက်က code တွေလဲအလုပ်ဆက်မလုပ်တော့ဘူး။
+        //or
+        return redirect('/'); //return မပြန်ရင် အောက်က code တွေက အလုပ်ဆက်လုပ်မှာဖြစ်ပြီး file လမ်းကြောင်းမရှိတဲ့ $path ကြောင့်error တွေတက်လာလိမ့်မယ်
+    }
+    $blog=file_get_contents($path);
     return view('blog', [
         "blog"=>$blog
     ]);
