@@ -16,17 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('blogs');
 });
-Route::get('/blog/{blog}', function ($fileName) {
-    $path=__DIR__."/../resources/blogs/$fileName.html"; // ဒါက (file လမ်းကြောင်း/file name)
-    //အကယ်၍ user က မရှိတယ့် routes တစ်ခု/file လမ်းကြောင်းတစ်ခုကို ပေးခဲ့ရင် error မတက်အောင် file လမ်းကြောင်းကို ဆွဲထုတ်တဲ့အဆင့်မရောက်ခင်မှာ if နဲ့စစ်ထားသင့်တယ်။
-    if (!file_exists($path)) { // file_exists က အဲ့ (file လမ်းကြောင်း/file name) ရှိ/မရှိစစ်တာ
-        abort(404); // abort က 404 page ကိုပြဖို့သုံးတာ။ပြီးရင် အောက်က code တွေလဲအလုပ်ဆက်မလုပ်တော့ဘူး။
-        //or
-        return redirect('/'); //return မပြန်ရင် အောက်က code တွေက အလုပ်ဆက်လုပ်မှာဖြစ်ပြီး file လမ်းကြောင်းမရှိတဲ့ $path ကြောင့်error တွေတက်လာလိမ့်မယ်
+Route::get('/blog/{blog}', function ($slug) { // laravel မှာ wildcard ကပေးလိုက်တယ့်ကောင်ကို function ထဲမှာ parameter တစ်ခုနဲ့ပြန်ဖမ်းတာကို slug လို့ခေါ်တယ်
+    $path=__DIR__."/../resources/blogs/$slug.html";
+    if (!file_exists($path)) {
+        abort(404);
+        return redirect('/');
     }
     $blog=file_get_contents($path);
     return view('blog', [
         "blog"=>$blog
     ]);
-    // laravel ကနောက်ကွယ်မှာ second parameter array ထဲက key နေရာမှာရှိနေတဲ့ blog ကို variable တစ်ခုအဖြစ်ပြန်ပြောင်းပေးပြီး template မှာပြန်ထည့်ပေးထားတယ်၊
-});
+})->where("blog", "[A-z\d\-_]+");
+//where က wildcard-contraint လို့ခေါ်တယ်။ wildcard နဲ့ ဖမ်းလိုက်တယ့်ကောင်တွေကို သတ်မှတ်ချက်တွေပေးဖို့သုံးတယ်။ where ရဲ့ first parameter မှာတော့ wildcard မှာသုံးထားတယ့် name ကိုပြန်ရေးပေးရတယ်၊ second parameter ကို regular expression လို့ခေါ်တယ်။
+//regular expression ဆိုတာ a to z ပဲပါရမယ်၊ number ပဲပါရမယ် စသဖြင့် သတ်မှတ်ချက်ပေးတာဖြစ်တယ်။
+//laravel မှာ regular expression ကိုမရေးတတ်ရင် laravel ကလုပ်ပေးထားတဲ့ whereAlpha,whereAlphaNumeric,whereNumber တို့ရှိတယ်
+//d ဆိုတာက digit(0-9) ဂဏန်းတွေကို အတိုရေးနည်းဖြစ်တယ်။
