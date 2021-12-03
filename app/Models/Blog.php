@@ -1,23 +1,32 @@
 <?php
 namespace app\Models;
 
-use Illuminate\Support\Facades\File; // File class ကိုသုံးဖို့ (File Facades ကိုအရင်သွင်းရတယ်)
+use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class Blog
 {
+    public $title;
+    public $slug;
+    public $intro;
+    public function __construct($title, $slug, $intro)
+    {
+        $this->title=$title;
+        $this->slug=$slug;
+        $this->intro=$intro;
+    }
     public static function all()
     {
-        // dd(resource_path('blogs'));
-        $files=File::files(resource_path('blogs'));// ဖိုင်တွေအများကြီးကို ဆွဲထုတ်ဖို့ files() method နဲ့ထုတ်။ အဲ့တာက directory(ဖိုင်ပတ်လမ်းကြောင်း) ကိုတောင်းတယ်။ ဆွဲထုတ်ချင်တဲ့ ဖိုင်တွေ(blogs)က resources ဆိုတဲ့ folder ထဲမှာရှိနေတော့ resource_path() နဲ့ဆွဲထုတ်။ resource_path function(laravel path helper function)က ဖိုင်ပတ်လမ်းကြောင်းကိုပဲ return ပြန်ပေးတာ။
-        // File က value နေရာမှာ object ဖြစ်တဲ့ array တစ်ခုကို return ပြန်တယ်။
-
-        // dd($files[0]->getContents());// $files က array။အဲ့တော့ $files[0]ဆိုတော့ 0 index ကိုထုတ်ပေးတယ်။0 index ရဲ့ value က object ဖြစ်နေတော့ getContents() method ကို -> အဲ့တာလေးနဲ့ခေါ်လို့ရတယ်။getContents() က အဲ့object ထဲမှာရှိတဲ့စာတွေကိုထုတ်ပေးတာ။
-
-        //$files(File) က value နေရာမှာ object ဖြစ်တဲ့ array။ ငါတို့လိုချင်တာက array တစ်ခုကိုပဲလိုချင်တာ။
-        //အဲ့တော့ ရှိနေတဲ့ $files ဆိုတဲ့ array ကိုမူတည်ပြီး array တစ်ခုထပ်ဖန်တီးဖို့ array_may ကိုသုံး
-        return array_map(function ($file) {
-            return $file->getContents();
-        }, $files);
+        $files=File::files(resource_path('blogs'));// blogs file တွေက html နဲ့အုပ်ထားတော့ စီမံလို့မရဘူး။ အဲ့တော့ matter package နဲ့စီမံဖို့ blogs file က html နဲ့ရေးထားတာတွေကိုလဲ matter data  တွေအဖြစ်ပြန်ပြောင်းရေး။
+        // YamlFrontMatter ကိုလဲ install တင်
+        $blogs=[];
+        foreach ($files as $file) {
+            $obj=YamlFrontMatter::parseFile($file);// YamlFrontMatter ရဲ့ parseFile က obj return ပြန်ပေး။But Document obj ဖြစ်နေတယ်။
+            $blog=new Blog($obj->title, $obj->slug, $obj->intro);// အဲ့တော့ကျိုးကြောင်းညီညွတ်အောင် blogs file တွေဆိုတာ blog obj ကပဲလာတယ်ဆိုတာမျိုးဖြစ်အောင် new keyword နဲ့ instentiate လုပ်ပြီး Blog class ထဲကို data တွေသွင်း
+            $blogs[]=$blog;// ငါတို့လိုချင်တာက hmtl နဲ့အုပ်ထားတယ် file တွေကို obj ပုံစံပြောင်းချင်တာ စိတ်ကြိုက်စီမံလို့ရအောင်။အဲ့တော့ file အရေအတွက်ပေါ်မူတည်ပြီး obj တွေရအောင် loop ပတ်တဲ့ထဲထည့်တယ်။ ပြီးတော့အဲ့ obj တွေကို $blogs ဆိုတဲ့ array ထဲထည့်သိမ်းထားလိုက်တယ်။
+            // (ဒီနေရာမှာ မှတ်ရမှာက Class ကိုဘုံထားပြီး obj တွေကိုလိုသလောက်တည်ဆောက်လို့ရတယ်ဆိုတဲ့အချက်)
+        }
+        return $blogs;
     }
     public static function find($slug)
     {
