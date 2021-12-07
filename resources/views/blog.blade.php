@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <?= $blog;  ?>
+    <h1><?= $blog->title?></h1>
+    {{-- $blog object ထဲက title property ကို ခေါ်သုံးတဲ့ပုံစံ --}}
+    <p><?= $blog->body?></p>
+    {{-- $blog object ထဲက body property ကို ခေါ်သုံးတဲ့ပုံစံ --}}
     <a href="/">go back</a>
 </body>
 </html>
