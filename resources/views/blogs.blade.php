@@ -9,8 +9,13 @@
 <link rel="stylesheet" href="css/style.css">
 <body>
     <?php foreach ($blogs as $blog): ?>
-    <h1><a href="/blogs/<?= $blog->slug?>"><?= $blog->title;?></a></h1>
-    <?= $blog->intro;?>
+    <div class="blog">
+        <h1><a href="/blogs/<?= $blog->slug?>"><?= $blog->title;?></a></h1>
+        <div>
+            <p>Published at - <?= $blog->date;?></p>
+            <p><?= $blog->intro;?></p>
+        </div>
+    </div>
     <?php endforeach; ?>
 </body>
 </html>

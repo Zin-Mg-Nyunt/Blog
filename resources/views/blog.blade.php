@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1><?= $blog->title?></h1>
-    {{-- $blog object ထဲက title property ကို ခေါ်သုံးတဲ့ပုံစံ --}}
-    <p><?= $blog->body?></p>
-    {{-- $blog object ထဲက body property ကို ခေါ်သုံးတဲ့ပုံစံ --}}
+    <h1><?= $blog->title;?></h1>
+    <div>
+        <p>Published at -<?= $blog->date;?></p>
+        <p><?= $blog->body;?></p>
+    </div>
     <a href="/">go back</a>
 </body>
 </html>

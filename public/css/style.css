@@ -2,7 +2,16 @@ body {
     background-color: lightblue;
     max-width: 1200px;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.blog {
+    max-width: 500px;
 }
 h1 {
     font-family: sans-serif;
+}
+p:first-child {
+    color: red;
 }
