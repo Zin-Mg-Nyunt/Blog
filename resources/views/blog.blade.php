@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1><?= $blog->title;?></h1>
+    <h1>{{ $blog->title }}</h1>
     <div>
-        <p>Published at -<?= $blog->date;?></p>
-        <p><?= $blog->body;?></p>
+        <p>Published at -{{ $blog->date }}</p>
+        <p>{!! $blog->body !!}</p>
+        {{-- laravel blade မှာ {{  }} အတွန့်ကွင်းနှစ်ထပ်က html code တွေကို escape လုပ်ပေးထားတယ်။ အဲ့တော့ html code တွေကို အလုပ်လုပ်စေချင်ရင် {!!  !!} အဲ့တာလေးနဲ့ရေးပေးရတယ် --}}
     </div>
     <a href="/">go back</a>
 </body>
