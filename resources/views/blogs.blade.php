@@ -5,7 +5,7 @@
 
     @foreach($blogs as $blog)
         <div class="blog">
-            <h1><a href="/blogs/{{ $blog->slug }}"> {{  $blog->title }} </a></h1>
+            <h1><a href="/blogs/{{ $blog->id }}"> {{  $blog->title }} </a></h1>
             <div>
                 <p>Published at - {{  $blog->date }}</p>
                 <p>{{ $blog->intro }}</p>
