@@ -19,8 +19,8 @@ Route::get('/', function () {
         'blogs'=>Blog::all()
     ]);
 });
-Route::get('/blogs/{blog}', function ($id) {
+Route::get('/blogs/{blog}', function (Blog $blog) { // Route_Model_Binding နည်းလမ်း function(Blog $blog) ဆိုတာက ["blog"=>Blog::findOrFail($slug)] ဆိုတဲ့ ရေးတဲ့ပုံစံကို တစ်ခါတည်းရေးလို့ရအောင် laravel ကလုပ်ပေးထားတာ
     return view('blog', [
-        "blog"=>Blog::findOrFail($id)
+        "blog"=>$blog
     ]);
 })->where("blog", "[A-z\d\-_]+");
