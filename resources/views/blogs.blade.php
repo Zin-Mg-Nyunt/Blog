@@ -5,7 +5,7 @@
 
     @foreach($blogs as $blog)
         <div class="blog">
-            <h1><a href="/blogs/{{ $blog->id }}"> {{  $blog->title }} </a></h1>
+            <h1><a href="/blogs/{{ $blog->slug }}"> {{  $blog->title }} </a></h1>
             <div>
                 <p>Published at - {{  $blog->created_at->diffForHumans() }}</p>
                 {{-- diffForHumans() က အချိန်ကို လူတွေဖတ်လို့လွယ်အောင် laravel က လုပ်ပေးတဲ့ method --}}
