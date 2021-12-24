@@ -4,10 +4,13 @@
     </x-slot>
 
     @foreach($blogs as $blog)
+    {{-- loop ပတ်တဲ့အချိန်မှာ query တစ်ခါrun --}}
         <div class="blog">
             <h1><a href="/blogs/{{ $blog->slug }}"> {{  $blog->title }} </a></h1>
-            <a href="/categories/{{ $blog->category->slug }}">{{ $blog->category->name }}</a>
-            {{-- loop ပတ်ထားတာမို့လို့ blog တွေက တစ်ခုချင်းစီ loop ပတ်ပြီး ဝင်လာနေတာမို့လို့ သက်ဆိုင်ရာ blog ရဲ့ category တွေကလဲ တစ်လှည့်စီဝင်လာမယ် --}}
+            <a href="/categories/{{ $blog->category->slug }}">
+                {{ $blog->category->name }}
+    {{-- Eloquent Relationship သုံးတဲ့အခါမှာ loop ပတ်လို့ရတဲ့ data ရှိသလောက် queryက ထပ်run။ အဲ့တော့ preform လျော့စေတယ်။အဲ့လိုမဖြစ်အောင် loop ရဲ့အပြင်မှာ Eloquent Relationship ကိုသုံးထားလိုက်မယ်ဆိုရင် query စုစုပေါင်းမှ နှစ်ခါပဲ run စရာလိုတော့မယ် --}}
+            </a>
             <div>
                 <p>Published at - {{  $blog->created_at->diffForHumans() }}</p>
                 <p>{{ $blog->intro }}</p>
