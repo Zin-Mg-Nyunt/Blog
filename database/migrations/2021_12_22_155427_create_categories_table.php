@@ -15,8 +15,8 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->unique();//unique() က name column ထဲမှာ တူညီတဲ့ data ကိုထပ်ထည့်လို့ မရအောင် လုပ်ပေးတာ။ ထည့်ရင် error ပြမယ်။
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
