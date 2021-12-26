@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
 
         $frontend=Category::factory()->create(['name'=>'frontend post']);
         $backend=Category::factory()->create(['name'=>'backend post']);
-        $mgmg=User::factory()->create(['name'=>'mg mg']);// ဒီ line မှာ user factory နဲ့ user table ထဲကို data အရင်သွင်းလိုက်တယ်
-
-        Blog::factory(2)->create(["category_id"=>$frontend->id]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ category data မထည့်ဘူး။ user data တော့နှစ်ခါတည်ဆောက်မယ်(user နှစ်ယောက်ထည့်မယ်)
-        Blog::factory(2)->create(["category_id"=>$backend->id]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ category data မထည့်ဘူး။ user data တော့နှစ်ခါတည်ဆောက်မယ်(user နှစ်ယောက်ထည့်မယ်)
-        Blog::factory(2)->create(['user_id'=>$mgmg]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ user data မထည့်ဘူး။ category data နှစ်ခါတည်ဆောက်မယ်(category နှစ်ခုထည့်မယ်)
+        $mgmg=User::factory()->create(['name'=>'mg mg']);
+        //User::factory() ဆိုရင် User class ထဲက HasFactory trait ထဲမှာ ရှိတဲ့ factory() method က အလုပ်လုပ်ပြီး သက်ဆိုင်ရာ factory file(eg: UserFactory) ကဆက်အလုပ်လုပ်
+        Blog::factory(2)->create(["category_id"=>$frontend->id]);
+        Blog::factory(2)->create(["category_id"=>$backend->id]);
+        Blog::factory(2)->create(['user_id'=>$mgmg]);
     }
 }

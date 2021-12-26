@@ -33,8 +33,9 @@ Route::get('/', function () {
         //query run တာကို လျော့ချဖို loop ပတ်ဖို့ data ပေးလိုက်တည်းက category(Eloquent Relationship) ကိုပါထုတ်ပြီးထည့်ပေး။ with() နဲ့ category(Eloquent Relationship) ကိုထုတ်ပေးရင် allကိုသုံးလို့မရတော့၊ get()ကိုပဲသုံးရတယ်။ all() က (Blog::al()) အဲ့လိုပုံစံတစ်မျိုးတည်းပဲသုံးရတယ်။
         //blog တွေအားလုံးကိုဆွဲထုတ်တဲ့ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်
 
-        'blogs'=>Blog::all()
-        // with property ကို Blog.php ထဲမှာ ရေးထားလိုက်တော့ eager load ပုံစံတွေရေးစရာမလို
+        'blogs'=>Blog::latest()->get()
+        //latest() ကိုသုံးလိုက်ရင် laravel ကနောက်ကွယ်မှာ order by sql နဲ့ create_at ကိုကြည့်ပြီးအလုပ်လုပ်တယ်(Desc နည်းလမ်းအရ ပြောင်းပြန် ချပြတယ်)နောက်ဆုံးတင်တဲ့ blog ကအပေါ်ဆုံးမှာ ရှိတယ်။
+        //ကြားမှာ query တစ်ခုကို ထည့်ရေးပေးလိုက်ရင် all() ကိုသုံးလို့မရတော့ဘူး။ get() ကိုပဲသုံးလို့ရတော့တယ်။
     ]);
 });
 Route::get('/blogs/{blog:slug}', function (Blog $blog) {
@@ -50,7 +51,7 @@ Route::get('/categories/{category:slug}', function (Category $category) {
         'blogs'=>$category->blogs
     ]);
 });
-Route::get('/users/{user}', function (User $user) {
+Route::get('/users/{user:username}', function (User $user) {
     return view('blogs', [
         // 'blogs'=>$user->blogs->load('author', 'category')
         //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
