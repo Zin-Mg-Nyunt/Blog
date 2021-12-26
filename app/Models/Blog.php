@@ -9,6 +9,7 @@ class Blog extends Model
 {
     use HasFactory;
     protected $guarded=['id'];
+    protected $with=['category','author'];//$with[] ထဲမှာ ထည့်ထားတဲ့ဟာက relationship တွေ(method တွေ)။ အဲ့လိုရေးထားလိုက်ရင် web.php မှာ with() တွေ load() တွေနဲ့ eager load ပုံစံတွေရေးစရာမလိုတော့ဘူး
 
     //Eloquent Model Relationship သုံးဖို့ လိုတဲ့ method
     public function category()

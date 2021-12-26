@@ -28,8 +28,13 @@ Route::get('/', function () {
     //အဲ့လို log file ထဲမှာ ပေါ်စေချင်တိုင်း အဲ့လိုကြီးရေးနေရတာကို မလုပ်ချင်လို့ clockwork ဆိုတဲ့ tool ကို project folder ထဲမှာ install တင်(php clockwork ဆိုပြီး chrome မှာရှာ)။အဲ့လိုဆိုရင် larvel.log ဖိုင်ထဲမှာသွားကြည့်စရာမလိုတော့ဘူး။ chrome မှာ inspect ထောက်ပြီးကြည့်လိုက်ရုံပဲ
 
     return view('blogs', [
-        'blogs'=>Blog::with('category')->get()// lazy loading// eager load
+        // 'blogs'=>Blog::with('category', 'author')->get()
+        // lazy loading// eager load
         //query run တာကို လျော့ချဖို loop ပတ်ဖို့ data ပေးလိုက်တည်းက category(Eloquent Relationship) ကိုပါထုတ်ပြီးထည့်ပေး။ with() နဲ့ category(Eloquent Relationship) ကိုထုတ်ပေးရင် allကိုသုံးလို့မရတော့၊ get()ကိုပဲသုံးရတယ်။ all() က (Blog::al()) အဲ့လိုပုံစံတစ်မျိုးတည်းပဲသုံးရတယ်။
+        //blog တွေအားလုံးကိုဆွဲထုတ်တဲ့ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်
+
+        'blogs'=>Blog::all()
+        // with property ကို Blog.php ထဲမှာ ရေးထားလိုက်တော့ eager load ပုံစံတွေရေးစရာမလို
     ]);
 });
 Route::get('/blogs/{blog:slug}', function (Blog $blog) {
@@ -39,11 +44,17 @@ Route::get('/blogs/{blog:slug}', function (Blog $blog) {
 })->where("blog", "[A-z\d\-_]+");
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('blogs', [
+        // 'blogs'=>$category->blogs->load('author', 'category')
+        //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
+
         'blogs'=>$category->blogs
     ]);
 });
 Route::get('/users/{user}', function (User $user) {
     return view('blogs', [
+        // 'blogs'=>$user->blogs->load('author', 'category')
+        //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
+
         'blogs'=>$user->blogs
     ]);
 });
