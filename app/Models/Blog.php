@@ -8,13 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
-    protected $guarded=['id'];//$guarded ထဲမှာကတော့ ထည့်မပေးစေချင်တဲ့ colum ကိုရေးရတယ်။ ဘာမှမထည့်ပေးဘူးဆိုရင် colum အကုန်လုံးကို လက်ခံတယ်လို့ဆိုလို။ guarded ထဲမှာ id လို့ထည့်ထားတော့ user က id ကိုလျှောက်ထည့်လိုက်လဲ laravel က ignore လုပ်ပလိုက်တယ်။
-
-    // protected $fillable=['title','intro','body'];//$fillable ထဲမှာကတော့ ထည့်ပေးချင်တဲ့ data ထည့်ပေးချင်တဲ့ colum တွေကိုရေးရတယ်။မထည့်ပဲ data ထည့်ပေးလိုက်ရင် database ထဲကို data မရောက်ပဲ error ပြလိမ့်မယ်။
+    protected $guarded=['id'];
 
     //Eloquent Model Relationship သုံးဖို့ လိုတဲ့ method
     public function category()
     {
-        return $this->belongsTo(Category::class); //belongsTo() က category တစ်ခုတည်းရှိလို့ တစ်ခုတည်းကိုပဲ ချိတ်မယ်ဆိုရင် သုံးရတာ။ Category::class ဆိုတာက namespace ပေးထားတဲ့ Category Model file ကို use လုပ်ပြီး လှမ်းချိတ်တာ
+        return $this->belongsTo(Category::class);
+    }
+
+    public function author()// method တွေက အရေးကြီးတယ်။ laravel က method name ကိုကြည့်ပြီး foreignId ရဲ့ key ကိုရှာပေးတာ(exp: method name က user ဆိုရင် foreignId ရဲ့ key က user_id,method name က author ဆိုရင် foreignId ရဲ့ key က author_id )
+    //အဲ့တော့ laravel ကို method name ကိုကြည့်ပြီး foreignId ရဲ့ key ကိုရှာမပေးစေချင်ရင် belongsTo မှာ second parameter ပေးလို့ရတယ်
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

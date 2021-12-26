@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         Category::truncate();
         Blog::truncate();
 
-        //Category class ထဲက factory method ကိုသုံးတာ။Category class ထဲမှာ (factory method မရှိပေမဲ့လဲ) use HasFactory ဆိုပြီး use လုပ်ထားတော့ HasFactory ဆိုတဲ့ trait ထဲမှာ factory method ရှိတယ်။ factory method က CategoryFactory file ထဲက definition method ကို run စေတယ်။
         $frontend=Category::factory()->create(['name'=>'frontend post']);
         $backend=Category::factory()->create(['name'=>'backend post']);
+        $mgmg=User::factory()->create(['name'=>'mg mg']);// ဒီ line မှာ user factory နဲ့ user table ထဲကို data အရင်သွင်းလိုက်တယ်
 
-        User::factory()->create();
-        Blog::factory(2)->create(["category_id"=>$frontend->id]);
-        Blog::factory(2)->create(["category_id"=>$backend->id]);
+        Blog::factory(2)->create(["category_id"=>$frontend->id]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ category data မထည့်ဘူး။ user data တော့နှစ်ခါတည်ဆောက်မယ်(user နှစ်ယောက်ထည့်မယ်)
+        Blog::factory(2)->create(["category_id"=>$backend->id]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ category data မထည့်ဘူး။ user data တော့နှစ်ခါတည်ဆောက်မယ်(user နှစ်ယောက်ထည့်မယ်)
+        Blog::factory(2)->create(['user_id'=>$mgmg]);// ဒီမှာ Blog factory နဲ့ blog နှစ်ခုတည်ဆောက်မယ်။ user data မထည့်ဘူး။ category data နှစ်ခါတည်ဆောက်မယ်(category နှစ်ခုထည့်မယ်)
     }
 }
