@@ -1,3 +1,5 @@
+@props(['blogs','data'=>'this is data'])
+{{-- @props() ဆိုတာက component တစ်ခုက ပေးလိုက်တဲ့ data တွေဝင်လာတာပါဆိုတာသိစေဖို့သုံးတာ။ default data တွေလဲသတ်မှတ်လို့ရတယ် --}}
 <section class="container text-center" id="blogs">
     <h1 class="display-5 fw-bold mb-4">Blogs</h1>
     <div class="">
@@ -26,17 +28,11 @@
       </div>
     </form>
     <div class="row">
+      @foreach ($blogs as $blog)
       <div class="col-md-4 mb-4">
-          <x-blog-card />
+          <x-blog-card :blog="$blog"/>
       </div>
-      <div class="col-md-4 mb-4">
-          <x-blog-card />
-      </div>
-      <div class="col-md-4 mb-4">
-          <x-blog-card />
-      </div>
-      <div class="col-md-4 mb-4">
-          <x-blog-card />
+      @endforeach
       </div>
     </div>
   </section>
