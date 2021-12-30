@@ -19,6 +19,6 @@
         Some quick example text to build on the Blog title and make up
         the bulk of the card's content.
       </p>
-      <a href="./single.html" class="btn btn-primary">Read More</a>
+      <a href="/blogs/{{ $blog->slug }}" class="btn btn-primary">Read More</a>
     </div>
   </div>

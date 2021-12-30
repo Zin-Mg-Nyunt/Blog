@@ -40,7 +40,9 @@ Route::get('/', function () {
 });
 Route::get('/blogs/{blog:slug}', function (Blog $blog) {
     return view('blog', [
-        "blog"=>$blog
+        "blog"=>$blog,
+        "randomBlog"=>Blog::inRandomOrder()->take(3)->get()
+        // inRandomOrder() က blog တွေကို random ချပြဖို့။ take() က ဘယ်နခုချပြရမလဲဆိုတာကို သတ်မှတ်ပေးတာ။ အနောက်က get() က blog တွေကို ဆွဲထုတ်ပေးတာ
     ]);
 })->where("blog", "[A-z\d\-_]+");
 Route::get('/categories/{category:slug}', function (Category $category) {
