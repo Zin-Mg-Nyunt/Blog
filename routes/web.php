@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Log;
 Route::get('/', function () {
     return view('blogs', [
         'blogs'=>Blog::latest()->get(),
+        'categories'=>Category::all()
     ]);
 });
 
@@ -33,9 +34,9 @@ Route::get('/blogs/{blog:slug}', function (Blog $blog) {
 
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('blogs', [
-        // 'blogs'=>$category->blogs->load('author', 'category')
-        //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
         'blogs'=>$category->blogs,
+        'categories'=>Category::all(),
+        'currentCategory'=>$category
 
     ]);
 });
@@ -44,6 +45,7 @@ Route::get('/users/{user:username}', function (User $user) {
     return view('blogs', [
         // 'blogs'=>$user->blogs->load('author', 'category')
         //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
-        'blogs'=>$user->blogs
+        'blogs'=>$user->blogs,
+        'categories'=>Category::all()
     ]);
 });

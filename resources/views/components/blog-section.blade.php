@@ -1,6 +1,8 @@
-@props(['blogs','categories'])
+@props(['blogs','categories','currentCategory'])
 <section class="container text-center" id="blogs">
-    <h1 class="display-5 fw-bold mb-4">Blogs</h1>
+    <h1 class="display-5 fw-bold mb-4">
+      Blogs
+    </h1>
     <div class="">
       {{-- select ထဲမှာ link တွေသုံးလို့မရပါ။ မရမက link ချိတ်ချင်ရင်တော့ ဒီလိုချိတ်လို့ရတယ် --}}
       {{-- <select onchange="location=this.value" class="p-1 rounded-pill">
@@ -8,12 +10,28 @@
         <option value="/example2">Example2</option>
       </select> --}}
       <div class="dropdown">
-        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Filter by Category
+        <button 
+          class="btn btn-outline-primary dropdown-toggle" 
+          type="button" 
+          id="dropdownMenuButton1" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"
+        >
+          {{ isset($currentCategory) ? $currentCategory->name : "Filter By Category" }}
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          @foreach ($blogs as $blog)
-          <li><a class="dropdown-item" href="/categories/{{ $blog->category->slug }}">{{ $blog->category->name }}</a></li>
+        <ul 
+          class="dropdown-menu" 
+          aria-labelledby="dropdownMenuButton1"
+        >
+          @foreach ($categories as $category)
+          <li>
+            <a 
+              class="dropdown-item" 
+              href="/categories/{{ $category->slug }}"
+            >
+              {{ $category->name }}
+            </a>
+          </li>
           @endforeach
         </ul>
       </div>

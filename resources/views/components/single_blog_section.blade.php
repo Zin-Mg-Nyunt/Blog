@@ -1,5 +1,4 @@
 @props(['blog'])
-{{-- ဒီက blog က ဒီcomponent ကိုခေါ်ထားတဲ့နေရာ(blog.blade.php) က ပို့လိုက်တဲ့ကောင် --}}
 <div class="container">
     <div class="row">
       <div class="col-md-6 mx-auto text-center">
@@ -8,10 +7,24 @@
           class="card-img-top"
           alt="..."
         />
-        <h3 class="my-3">{{ $blog->title }}</h3>
-        <div>Author - {{ $blog->author->name }}</div>
-        <div class="badge bg-primary">{{ $blog->category->name }}</div>
-        <div>{{ $blog->created_at->diffForHumans() }}</div>
+        <h3 class="my-3">
+          {{ $blog->title }}
+        </h3>
+        <div>Author - 
+          <a href="/users/{{ $blog->author->username }}">
+            {{ $blog->author->name }}
+          </a>
+        </div>
+        <div>
+          <a href="/categories/{{ $blog->category->slug }}">
+            <span class="badge bg-primary">
+              {{ $blog->category->name }}
+            </span>
+          </a>
+        </div>
+        <div>
+          {{ $blog->created_at->diffForHumans() }}
+        </div>
         <p class="lh-md mt-3">
           {{ $blog->body }}
         </p>
