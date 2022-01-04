@@ -19,8 +19,13 @@ use Illuminate\Support\Facades\Log;
 */
 
 Route::get('/', function () {
+    $blogs=Blog::latest(); //query ကို if ထဲမှာ ထည့်စစ်ချင်လို့ ($blogs)variable နဲ့ query ကိုဆွဲထုတ်ထားတယ်။
+    if (request('search')) { // request() က user ထည့်ပေးလိုက်တဲ့ data ကိုပြန်ဖမ်း
+        $blogs=$blogs->where('title', 'LIKE', '%'.request('search').'%');
+        //where ဆိုတာ condition query.first parameter က blogs table ထဲက column name, second parameter ဖြစ်တဲ့ (LIKE) က user က title အပြည့်အစုံကို မသိလို့ သိတဲ့ စာတစ်လုံးကိုပဲရိုက်ထည့်လိုက်တဲ့အခါ အဲ့စာတစ်လုံးပါတဲ့ blogs တွေကို ချပြအောင်လုပ်ပေးတာ။အဲ့ (LIKE) ဆိုတဲ့ query သာမပါရင် title အပြည့်အစုံကို ထည့်ပေးမှ blogs ပြပြီး title အပြည့်အစုံမထည့်ပေးရင် ဘာblogs မှမပြပေးနိုင်တော့ဘူး။ third parameter က search bar မှာ user ထည့်ပေးလိုက်တဲ့ data ကို ပြန်ထည့်ထားတာ။ (%) တွေက user ထည့်ပေးလိုက်တဲ့ data ရဲ့ အရှေ့မှာရော အနောက်မှာရော စာတွေရှိနိုင်သေးတယ်လို့ ယူဆပြီး စာတွေကိုယ်စား ထည့်ပေးရတာ။ (LIKE) ကိုသုံးရင် (%) လဲသုံးရတယ်
+    }
     return view('blogs', [
-        'blogs'=>Blog::latest()->get(),
+        'blogs'=>$blogs->get(),
         'categories'=>Category::all()
     ]);
 });

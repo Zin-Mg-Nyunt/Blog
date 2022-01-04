@@ -4,11 +4,6 @@
       Blogs
     </h1>
     <div class="">
-      {{-- select ထဲမှာ link တွေသုံးလို့မရပါ။ မရမက link ချိတ်ချင်ရင်တော့ ဒီလိုချိတ်လို့ရတယ် --}}
-      {{-- <select onchange="location=this.value" class="p-1 rounded-pill">
-        <option value="/example">Example</option>
-        <option value="/example2">Example2</option>
-      </select> --}}
       <div class="dropdown">
         <button 
           class="btn btn-outline-primary dropdown-toggle" 
@@ -40,9 +35,12 @@
       </select> --}}
     </div>
     <form action="" class="my-3">
+      {{-- ဘာ method မှမပါရင် default အနေနဲ့ GET method ကိုသတ်မှတ်ပေးထား --}}
       <div class="input-group mb-3">
         <input
+          name="search"
           type="text"
+          value="{{ request('search') }}"
           autocomplete="false"
           class="form-control"
           placeholder="Search Blogs..."
