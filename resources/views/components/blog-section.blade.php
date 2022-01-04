@@ -55,11 +55,23 @@
       </div>
     </form>
     <div class="row">
+      {{-- @if ($blogs->count())
       @foreach ($blogs as $blog)
       <div class="col-md-4 mb-4">
-          <x-blog-card :blog="$blog"/>
+        <x-blog-card :blog="$blog"/>
       </div>
       @endforeach
-      </div>
+      @else
+      <p>No Blogs Found</p>
+      @endif --}}
+      {{-- if else ကိုပဲ တိုပြီးရိုးရှင်းပြီးလွယ်ကူတဲ့ပုံစံနဲ့ဖြစ်အောင် laravel မှာရေးနည်း --}}
+
+      @forelse ($blogs as $blog)
+        <div class="col-md-4 mb-4">
+          <x-blog-card :blog="$blog" />
+        </div>
+      @empty
+        <p>No Blogs Found</p>
+      @endforelse
     </div>
   </section>
