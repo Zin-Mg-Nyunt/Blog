@@ -9,31 +9,40 @@ class Blog extends Model
 {
     use HasFactory;
     protected $guarded=['id'];
-    protected $with=['category','author'];//$with[] ထဲမှာ ထည့်ထားတဲ့ဟာက relationship တွေ(method တွေ)။ အဲ့လိုရေးထားလိုက်ရင် web.php မှာ with() တွေ load() တွေနဲ့ eager load ပုံစံတွေရေးစရာမလိုတော့ဘူး
-
-    // scopequery ရေးနည်း
-    //scopeFilter ရဲ့ first parameter ထဲမှာ filter method ကိုခေါ်ထားတဲ့ query[Blog::latest()] ကို ထည့်ပေးရတယ်
-    //scopeFilter ရဲ့ second parameter ထဲမှာ filter method ကပို့ပေးလိုက်တဲ့ data ကိုလက်ခံလို့ရတယ်
-    //array ပုံစံနဲ့ရေးထားတော့ ကြိုက်တာနဲ့ စစ်လို့ရသွားပြီ။ author နဲ့ပဲစစ်စစ်၊ category နဲ့ပဲစစ်စစ်
+    protected $with=['category','author'];
+    
+    //logical grouping ကို where နဲ့ orWhere တွဲသုံးတဲ့ နေရာတိုင်းမှာ သုံးပေးရမယ်
     public function scopeFilter($query, $filter)//Blog::latest()->filter()
     {
-        //$filter['search']??false ဆိုတာက $filter['search'] ဆိုတဲ့ထဲမှာ search data ရှိရင် အဲ့search data ကိုထည့်ပြီး မရှိရင် false ကိုထည့်(terniary operator ကို အတိုကောက်ရေးတဲ့ပုံစံ)။ false ဝင်သွားရင် second parameter ထဲက callback function ကအလုပ်လုပ်စရာမလိုတော့ဘူး
-        //ဘယ်လိုအချိန်မှာ search data မရှိဘူးလဲဆိုရင် website ထဲကို ဝင်ခါစ အချိန်မှာဆိုရင် ဘာsearch data မှမရှိဘူး အဲ့လိုအချိန်ဆိုရင် when ရဲ့ first parameter ထဲကို false ကဝင်သွားပြီ အနောက်က callback function ကအလုပ်လုပ်စရာမလိုတော့ဘူး
+        //logical grouping ကိုဘယ်လိုသုံးလဲဆိုတော့ where method ခေါ်ပြီးသုံးတယ် where method ထဲမှာ callback function တစ်ခုထည့်ရတယ်။ အဲ့ callback function ရဲ့ parameter ထဲမှာ where အရှေ့က query ကိုပြန်ထည့်တယ်။ ပြီးတော့ အဲ့ callback function ထဲမှာ group လုပ်ချင်တဲ့ logic ကိုထည့်
+        //callback function ထဲမှာ variable တွေကို ဒီတိုင်းသုံးလို့မရတဲ့တွက် use လုပ်ပြီးမှ ခေါ်သုံးရတယ်
         $query->when($filter['search']??false, function ($query, $search) {
-            $query->where('title', 'LIKE', '%'.$search.'%')
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'LIKE', '%'.$search.'%')
                 ->orWhere('body', 'LIKE', '%'.$search.'%');
+            })
+            ->where('title', 'backend');
         });
     }
 
-    //Eloquent Model Relationship သုံးဖို့ လိုတဲ့ method
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function author()// method တွေက အရေးကြီးတယ်။ laravel က method name ကိုကြည့်ပြီး foreignId ရဲ့ key ကိုရှာပေးတာ(exp: method name က user ဆိုရင် foreignId ရဲ့ key က user_id,method name က author ဆိုရင် foreignId ရဲ့ key က author_id )
-    //အဲ့တော့ laravel ကို method name ကိုကြည့်ပြီး foreignId ရဲ့ key ကိုရှာမပေးစေချင်ရင် belongsTo မှာ second parameter ပေးလို့ရတယ်
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 }
+//logical grouping
+
+//eg:
+//name = 'mg mg' or name = 'tun tun' and age > 20
+//နာမည်က မောင်မောင် သို့မဟုတ် ထွန်းထွန်း ဖြစ်ပြီးတော့ အသက်က ၂၀ထက်ကြီးရမယ်
+//အဲ့လိုဖြစ်ချင်တာ အဲ့မှာ အရေကြီးတဲ့ logical grouping တွေလိုပြီ။
+//logical grouping ဆိုတာ () ကွင်းလေးတွေကိုပြောတာ
+//နာမည်က မောင်မောင်သို့မဟုတ် ထွန်းထွန်း အဲ့တာက logic တစ်ခု / အသက်က ၂၀ထက်ကြီးရမယ် အဲ့တာက logic တစ်ခု
+//အဲ့တော့ () ကွင်းက ဒီလိုပါမှ ရမယ်
+// (name = 'mg mg' or name= 'tun tun') and age > 20
+// အဲ့တာမှသာ မှန်မယ်
