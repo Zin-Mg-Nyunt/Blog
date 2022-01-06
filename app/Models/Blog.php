@@ -11,17 +11,32 @@ class Blog extends Model
     protected $guarded=['id'];
     protected $with=['category','author'];
     
-    //logical grouping ကို where နဲ့ orWhere တွဲသုံးတဲ့ နေရာတိုင်းမှာ သုံးပေးရမယ်
-    public function scopeFilter($query, $filter)//Blog::latest()->filter()
+    
+    public function scopeFilter($query, $filter)
     {
-        //logical grouping ကိုဘယ်လိုသုံးလဲဆိုတော့ where method ခေါ်ပြီးသုံးတယ် where method ထဲမှာ callback function တစ်ခုထည့်ရတယ်။ အဲ့ callback function ရဲ့ parameter ထဲမှာ where အရှေ့က query ကိုပြန်ထည့်တယ်။ ပြီးတော့ အဲ့ callback function ထဲမှာ group လုပ်ချင်တဲ့ logic ကိုထည့်
-        //callback function ထဲမှာ variable တွေကို ဒီတိုင်းသုံးလို့မရတဲ့တွက် use လုပ်ပြီးမှ ခေါ်သုံးရတယ်
         $query->when($filter['search']??false, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('title', 'LIKE', '%'.$search.'%')
                 ->orWhere('body', 'LIKE', '%'.$search.'%');
-            })
-            ->where('title', 'backend');
+            });
+        });
+        $query->when($filter['category']??false, function ($query, $slug) {
+            //အရင်တုန်းက category model ထဲကနေပြီးတော့ user ရှာတဲ့ category slug နဲ့ category table ထဲမှာ ရှိတဲ့ slug တူတဲ့ကောင်ကိုတိုက်စစ်ပြီး ရလာတဲ့ category ကနေပြီးတော့ သူနဲ့ဆိုင်တဲ့ blogs တွေကို blogs relationship method နဲ့ ပြန်ဆွဲထုတ်တာ
+            //အခုကကျတော့ blog model ထဲကနေပြီးတော့ ဆွဲထုတ်မှာဆိုတော့ ပြောင်းပြန် model ကနေဆွဲထုတ်မှာ
+            //ပြောင်းပြန်ဆွဲထုတ်တယ်ဆိုတာ
+            //category model ထဲကနေပြီးတော့ အဲ့category နဲ့သက်ဆိုင်တဲ့ blogs ကိုဆွဲထုတ်တာမဟုတ်ပဲ blog model ထဲကနေပြီးတော့ အဲ့category နဲ့သက်ဆိုင်တဲ့ blogs ကိုဆွဲထုတ်တာ
+            //အဲ့လိုအခြေအနေဆိုရင် whereHas ကိုသုံးပါမယ်
+            $query->whereHas('category', function ($query) use ($slug) {
+                // whereHas ထဲက first parameter က relationship method ကိုထည့်ရ
+                //whereHas ကိုခေါ်ထားတာက $queryကနေခေါ်ထားတာ
+                //အဲ့$query ဆိုတာက scopeFilter / filter() method ကိုခေါ်ထားတဲ့ Blog::latest() ဖြစ်တယ်။
+                //ဆိုတော့ အဲ့$query ဆိုတာက Blog model ပဲဖြစ်တယ်။Blog model ဖြစ်တော့ သူ့ထဲမှာရှိတဲ့ relationship method တွေကိုပဲယူသုံးလို့ရမယ်
+                //အခုလုပ်နေတာက category ကို filter လုပ်ချင်တာဆိုတော့ category relationship method ကိုယူသုံးမယ်
+                //အဲ့တာကြောင့် whereHas ထဲက first parameter မှာ category relationship method ကိုထည့်
+                //whereHas ထဲက second parameter မှာ callback function ထည့်
+                // မှတ်ထားရမှာက callback function ကလက်ခံတဲ့ parameter($query) ဆိုတာက Blog model မဟုတ်တော့ဘူး။ categroy relationship method ကနေလာတဲ့ Category model ဖြစ်တယ်။ အဲ့တော့ category table ထဲက column တွေကို ယူကစားလို့ရပြီ။ user ထည့်လိုက်တဲ့ slug ကို category table ထဲက slug column နဲ့ condition တိုက်စစ်လို့ရသွားပြီ
+                $query->where('slug', $slug);
+            });
         });
     }
 
@@ -35,14 +50,3 @@ class Blog extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 }
-//logical grouping
-
-//eg:
-//name = 'mg mg' or name = 'tun tun' and age > 20
-//နာမည်က မောင်မောင် သို့မဟုတ် ထွန်းထွန်း ဖြစ်ပြီးတော့ အသက်က ၂၀ထက်ကြီးရမယ်
-//အဲ့လိုဖြစ်ချင်တာ အဲ့မှာ အရေကြီးတဲ့ logical grouping တွေလိုပြီ။
-//logical grouping ဆိုတာ () ကွင်းလေးတွေကိုပြောတာ
-//နာမည်က မောင်မောင်သို့မဟုတ် ထွန်းထွန်း အဲ့တာက logic တစ်ခု / အသက်က ၂၀ထက်ကြီးရမယ် အဲ့တာက logic တစ်ခု
-//အဲ့တော့ () ကွင်းက ဒီလိုပါမှ ရမယ်
-// (name = 'mg mg' or name= 'tun tun') and age > 20
-// အဲ့တာမှသာ မှန်မယ်

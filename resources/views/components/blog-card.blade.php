@@ -13,7 +13,8 @@
         <span> - {{ $blog->created_at->diffForHumans() }}</span>
       </p>
       <div class="tags my-3">
-        <a href="/categories/{{ $blog->category->slug }}"><span class="badge bg-primary">{{ $blog->category->name }}</span></a>
+        <a href="/?category={{ $blog->category->slug }}"><span class="badge bg-primary">{{ $blog->category->name }}</span></a>
+        {{-- category routes နဲ့သွားစရာမလိုတော့ဘူး။ request data နဲ့ပဲသွားလို့ရပြီဆိုတော့ link ချိတ်တာကိုလာပြောင်း --}}
       </div>
       <p class="card-text">
         Some quick example text to build on the Blog title and make up

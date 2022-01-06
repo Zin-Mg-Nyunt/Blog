@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         Category::truncate();
         Blog::truncate();
 
-        $frontend=Category::factory()->create(['name'=>'frontend post']);
-        $backend=Category::factory()->create(['name'=>'backend post']);
-        $mgmg=User::factory()->create(['name'=>'mg mg']);
-        //User::factory() ဆိုရင် User class ထဲက HasFactory trait ထဲမှာ ရှိတဲ့ factory() method က အလုပ်လုပ်ပြီး သက်ဆိုင်ရာ factory file(eg: UserFactory) ကဆက်အလုပ်လုပ်
-        Blog::factory(2)->create(["category_id"=>$frontend->id]);
-        Blog::factory(2)->create(["category_id"=>$backend->id]);
-        Blog::factory(2)->create(['user_id'=>$mgmg]);
+        $mgmg=User::factory()->create(['name'=>'mg mg','username'=>'mg mg']);
+        $aungaung=User::factory()->create(['name'=>'aung aung','username'=>'aung aung']);
+        $frontend=Category::factory()->create(['name'=>'frontend post','slug'=>'frontend']);
+        $backend=Category::factory()->create(['name'=>'backend post','slug'=>'backend']);
+        
+        Blog::factory(2)->create(["category_id"=>$frontend->id,"user_id"=>$mgmg]);
+        Blog::factory(2)->create(["category_id"=>$backend->id,"user_id"=>$aungaung]);
     }
 }

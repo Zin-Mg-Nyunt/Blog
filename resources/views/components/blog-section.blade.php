@@ -22,8 +22,9 @@
           <li>
             <a 
               class="dropdown-item" 
-              href="/categories/{{ $category->slug }}"
+              href="/?category={{ $category->slug }}"
             >
+            {{-- category routes နဲ့သွားစရာမလိုတော့ဘူး။ request data နဲ့ပဲသွားလို့ရပြီဆိုတော့ link ချိတ်တာကိုလာပြောင်း --}}
               {{ $category->name }}
             </a>
           </li>

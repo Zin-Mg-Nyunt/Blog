@@ -8,19 +8,18 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-// controller ကိုသုံးပြီး refactoring လုပ်သွားတာ
 Route::get('/', [BlogController::class,'index']);
 
 Route::get('/blogs/{blog:slug}', [BlogController::class,'show']);
 
-Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('blogs', [
-        'blogs'=>$category->blogs,
-        'categories'=>Category::all(),
-        'currentCategory'=>$category
+// Route::get('/categories/{category:slug}', function (Category $category) {
+//     return view('blogs', [
+//         'blogs'=>$category->blogs,
+//         'categories'=>Category::all(),
+//         'currentCategory'=>$category
 
-    ]);
-});
+//     ]);
+// });
 
 Route::get('/users/{user:username}', function (User $user) {
     return view('blogs', [
