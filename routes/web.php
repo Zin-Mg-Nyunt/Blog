@@ -23,9 +23,10 @@ Route::get('/blogs/{blog:slug}', [BlogController::class,'show']);
 
 Route::get('/users/{user:username}', function (User $user) {
     return view('blogs', [
-        // 'blogs'=>$user->blogs->load('author', 'category')
-        //eager load ပုံစံ (obj ထဲက ဆွဲထုတ်တဲ့ ဟာကို eager load ရေးရင် ဒီလိုရေးရတယ်။)
-        'blogs'=>$user->blogs,
-        'categories'=>Category::all()
+        'blogs'=>$user->blogs
     ]);
 });
+//ဒီ route ကနေလဲ category ကိုပို့နေရတယ်
+//BlogController ရဲ့ index ကနေလဲ category ကိုပို့နေရတယ်
+//duplicate ဖြစ်နေပြီ နောက်ပြီးတော့ blogs blade တွေကို data ပို့ရင် blog data ပဲပို့သင့်တာပေါ့ အဲ့တာကို category တွေပါပို့နေရတာက သိပ်တော့ကျိုးကြောင်းညီညွတ်မှုမရှိသေးဘူး
+//အဲ့တာကြောင့် category data တွေကို ပို့လဲပို့မယ် ကျိုးကြောင်းညီညွတ်စွာမှုလဲရှိအောင် category component တစ်ခုတည်ဆောက်လိုက်တယ်
