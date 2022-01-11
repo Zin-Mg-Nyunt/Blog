@@ -25,6 +25,12 @@ class Blog extends Model
                 $query->where('slug', $slug);
             });
         });
+        //category ကို filter လုပ်တုန်းကလိုပဲ username နဲ့ filter လုပ်တာ
+        $query->when($filter['username']??false, function ($query, $username) {
+            $query->whereHas('author', function ($query) use ($username) {
+                $query->where('username', $username);
+            });
+        });
     }
 
     public function category()
