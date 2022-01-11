@@ -9,12 +9,19 @@
     <div class="card-body">
       <h3 class="card-title">{{ $blog->title }}</h3>
       <p class="fs-6 text-secondary">
-        <a href="/users/{{ $blog->author->username }}">{{ $blog->author->name }}</a>
+        {{-- ternary operator နည်းလမ်းနဲ့ condition စစ်ပြီး mutiple query ကို ui ပိုင်းကနေလုပ်သွားတာ --}}
+        {{-- author name ကိုနှိပ်ပြီး author username နဲ့ data ရှာလိုက်တဲ့ချိန်မှာ category key နဲ့ data ရှာထားတာရှိလား ရှိရင် ပေါင်းထည့်ပေးပါ/ မရှိရင် မထည့်ပါနဲ့။ အဲ့လိုပဲ search key နဲ့ data ရှာထားတာရှိလား ရှိရင်ပေါင်းထည့်ပေးပါ/ မရှိရင် မထည့်ပါနဲ့ --}}
+        <a 
+          href="/?username={{ $blog->author->username }}
+          {{ request('category')?'&category='.request('category'):"" }}
+          {{ request('search')?'&search='.request('search'):"" }}"
+        >
+          {{ $blog->author->name }}
+        </a>
         <span> - {{ $blog->created_at->diffForHumans() }}</span>
       </p>
       <div class="tags my-3">
         <a href="/?category={{ $blog->category->slug }}"><span class="badge bg-primary">{{ $blog->category->name }}</span></a>
-        {{-- category routes နဲ့သွားစရာမလိုတော့ဘူး။ request data နဲ့ပဲသွားလို့ရပြီဆိုတော့ link ချိတ်တာကိုလာပြောင်း --}}
       </div>
       <p class="card-text">
         Some quick example text to build on the Blog title and make up

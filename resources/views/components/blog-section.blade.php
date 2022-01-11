@@ -10,8 +10,23 @@
       </select> --}}
     </div>
     <form action="" class="my-3">
-      {{-- ဘာ method မှမပါရင် default အနေနဲ့ GET method ကိုသတ်မှတ်ပေးထား --}}
       <div class="input-group mb-3">
+        {{-- url bar မှာ category နဲ့ရှာထားတယ့် data ရှိနေရင် အောက်ကဟာကိုပါ ပေါင်းထည့်/ မရှိရင် မထည့် --}}
+        @if (request('category'))          
+        <input
+          name="category"
+          type="hidden"
+          value="{{ request('category') }}"
+        />
+        @endif
+        {{-- url bar မှာ username နဲ့ရှာထားတယ့် data ရှိနေရင် အောက်ကဟာကိုပါ ပေါင်းထည့်/ မရှိရင် မထည့် --}}
+        @if (request('username'))
+        <input
+          name="username"
+          type="hidden"
+          value="{{ request('username') }}"
+        />
+        @endif
         <input
           name="search"
           type="text"
