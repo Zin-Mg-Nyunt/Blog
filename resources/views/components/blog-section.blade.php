@@ -63,5 +63,10 @@
       @empty
         <p>No Blogs Found</p>
       @endforelse
+      {{-- ဒါက pagination link ကိုခေါ်တဲ့ကောင် --}}
+      {{ $blogs->links() }}
+      {{-- laravel က default အနေနဲ့ tailwind library ကိုသုံးထားတယ်။
+        Bootstrap ကိုပြောင်းပေးရမယ်။--}}
+      {{-- larqavel မှာ default ပါတဲ့ file တွေက vendor ထဲမှာ ရှိတယ် အဲ့ကောင်တွေကို သွားထိခွင့်မရှိဘူး css ပုံစံကို custom ပြင်ချင်တယ်ဆိုရင် php artisan vendor:publish --}}
     </div>
   </section>
