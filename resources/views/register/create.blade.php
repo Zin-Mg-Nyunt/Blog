@@ -23,8 +23,6 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Email address</label>
                             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ old('email') }}">
-                            {{-- old ဆိုတာက အရှေ့ကအရင်ရေးထားတဲ့ old data ကို ပြန်ထည့်ပေးတာ
-                            old function ထဲမှာ input ရဲ့ name ကိုထည့်ပေးရတယ်--}}
                             @error('email')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror

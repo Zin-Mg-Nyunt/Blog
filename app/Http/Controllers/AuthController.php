@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -12,13 +14,16 @@ class AuthController extends Controller
     }
     public function store()
     {
-        //laravel ရဲ့ requestမှာပါတဲ့ validate က input ကထည့်ပေးလိုက်တဲ့ဟာတွေက သတ်မှတ်ထားတဲ့ rule တွေနဲ့ညီတယ်ဆိုမှ သူ့အောက်မှာရှိတဲ့ code တွေကို ထပ်အလုပ်လုပ်ပေးမှာ rule တွေနဲ့မညီဘူးဆိုရင် အရှေ့က create form ကိုပြန်ပို့ပေးတယ်
-        //request() ရဲ့ validate ကိုသုံးပြီးတော့ အထဲမှာ rule တွေသတ်မှတ်လို့ရတယ်
-        request()->validate([
-            'name'=>'required|min:3|max:100',//ဒီလိုမျိုးလဲ rule ကိုရေးလို့ရတယ်
-            "username"=>'required|min:3|max:100',//max ဆိုတာ အများဆုံး အလုံး၁၀၀ ထိထည့်လို့ရတယ်ဆိုတဲ့ အဓိပါယ်
-            "email"=>['required','email'],//ဒီလို array ပုံစံနဲ့လဲ rule ကိုရေးလို့ရတယ်
-            "password"=>'required|min:6|max:15'//min ဆိုတာ အနည်းဆုံး ၆လုံးထည့်ပေးရမယ်ဆိုတဲ့ အဓိပါယ်
+        //validate က ထည့်လာတယ့် input က data တွေကသူသတ်မှတ်ထားတဲ့ rule တွေနဲ့ကိုက်ညီလို့ အောင်မြင်တယ်ဆိုရင် arrray တစ်ခု return ပြန်ပေးတယ်
+        $formData=request()->validate([
+            'name'=>'required|min:3|max:100',
+            "username"=>['required','min:3','max:100',Rule::unique('users', 'username')],
+            //unique rule ကိုထည့်ချင်ရင် ဒီလိုပုံစံနဲ့ထည့်ရတယ် | (pipe) နဲ့ထည့်လို့မရဘူး array ပုံစံနဲ့ပဲထည့်လို့ရတယ်
+            "email"=>['required','email',Rule::unique('users', 'email')],
+            "password"=>'required|min:6|max:15'
         ]);
+        User::create($formData);
+
+        return redirect('/');
     }
 }
