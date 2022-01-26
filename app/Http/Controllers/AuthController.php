@@ -14,16 +14,16 @@ class AuthController extends Controller
     }
     public function store()
     {
-        //validate က ထည့်လာတယ့် input က data တွေကသူသတ်မှတ်ထားတဲ့ rule တွေနဲ့ကိုက်ညီလို့ အောင်မြင်တယ်ဆိုရင် arrray တစ်ခု return ပြန်ပေးတယ်
         $formData=request()->validate([
             'name'=>'required|min:3|max:100',
             "username"=>['required','min:3','max:100',Rule::unique('users', 'username')],
-            //unique rule ကိုထည့်ချင်ရင် ဒီလိုပုံစံနဲ့ထည့်ရတယ် | (pipe) နဲ့ထည့်လို့မရဘူး array ပုံစံနဲ့ပဲထည့်လို့ရတယ်
             "email"=>['required','email',Rule::unique('users', 'email')],
             "password"=>'required|min:6|max:15'
         ]);
-        User::create($formData);
-
-        return redirect('/');
+        $user=User::create($formData);
+        // session()->flash('success', 'Welcom Dear '.$user->name);
+        //flash ဆိုတာက ခဏတစ်ဖြုတ်ပဲပေါ်စေချင်တဲ့အခါသုံးရတယ်။ page ကို refresh လုပ်လိုက်တဲ့အခါ session ထဲမှာသိမ်းထားတယ့်ဟာက မရှိတော့ဘူး။ အဲ့လိုဖြစ်အောင်လုပ်တာ
+        return redirect('/')->with('success', 'Welcome Dear '.$user->name);
+        //ဒီလို redirect function ရဲ့အနောက်ကနေလဲ with function ကိုသုံးပြီးရေးလို့ရတယ်။ session ကိုမသုံးပဲ
     }
 }
