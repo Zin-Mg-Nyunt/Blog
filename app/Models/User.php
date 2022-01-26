@@ -41,4 +41,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Blog::class);
     }
+
+    //Accessors
+    public function getNameAttribute($value) //getColumnAttribute()
+    {
+        return ucwords($value);
+    }
+
+    //Mutators
+    public function setPasswordAttribute($value) //setColumnAttribute()
+    {
+        return $this->attributes['password']=bcrypt($value);
+    }//$this->attributes ဆိုတာက ဒီmodel/class ရဲ့ attributes တွေထဲက password ဆိုတဲ့ attribute ကိုရွေးလိုက်တာ။ Table ထဲမှာဆိုရင်တော့ column လို့ခေါ်တယ်
 }

@@ -11,12 +11,12 @@
           {{ $blog->title }}
         </h3>
         <div>Author - 
-          <a href="/users/{{ $blog->author->username }}">
+          <a href="/?username={{ $blog->author->username }}">
             {{ $blog->author->name }}
           </a>
         </div>
         <div>
-          <a href="/categories/{{ $blog->category->slug }}">
+          <a href="/?category={{ $blog->category->slug }}">
             <span class="badge bg-primary">
               {{ $blog->category->name }}
             </span>
