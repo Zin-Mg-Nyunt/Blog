@@ -50,6 +50,9 @@
           <a href="/register" class="nav-link">
             Register
           </a>
+          <a href="/login" class="nav-link">
+            Login
+          </a>
         @else
         {{-- ဧည့်သည်မဟုတ်ရင် welcom ပြပြီး logout လုပ်နိုင် --}}
           <a href="/" class="nav-link">
