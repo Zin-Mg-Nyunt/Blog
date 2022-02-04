@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function blog()
+    {
+        return $this->belongsTo(Blog::class);
+    }
 }
