@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 Route::get('/', [BlogController::class,'index']);
 Route::get('/blogs/{blog:slug}', [BlogController::class,'show']);
+
+Route::post('/blogs/{blog:slug}/comment', [CommentController::class,'store']);
 
 //register route ကို guestဖြစ်နေတယ့်အချိန်၊ login မဝင်ရသေးတဲ့အချိန် မှသာ ဝင်လို့ရမယ်
 Route::get('/register', [AuthController::class,'create'])->middleware('guest');
