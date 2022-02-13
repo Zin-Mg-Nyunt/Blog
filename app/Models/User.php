@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->attributes['password']=bcrypt($value);
     }//$this->attributes ဆိုတာက ဒီmodel/class ရဲ့ attributes တွေထဲက password ဆိုတဲ့ attribute ကိုရွေးလိုက်တာ။ Table ထဲမှာဆိုရင်တော့ column လို့ခေါ်တယ်
+
+    public function subscribedBlogs()
+    {
+        return $this->belongsToMany(Blog::class);
+    }
 }

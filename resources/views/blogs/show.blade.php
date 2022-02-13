@@ -35,6 +35,5 @@
         @if ($blog->comments->count())
         <x-comments :comments="$blog->comments"/>
         @endif
-    <x-subscribe/>
     <x-blogs_you_may_like :randomBlog="$randomBlog"/>
 </x-layout>

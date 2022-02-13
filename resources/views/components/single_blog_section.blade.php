@@ -25,6 +25,9 @@
         <div>
           {{ $blog->created_at->diffForHumans() }}
         </div>
+        <div>
+          <button class="btn btn-secondary">Subscribe</button>
+        </div>
         <p class="lh-md mt-3">
           {{ $blog->body }}
         </p>
