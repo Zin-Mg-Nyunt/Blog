@@ -33,7 +33,8 @@
             </div>
         </section>
         @if ($blog->comments->count())
-        <x-comments :comments="$blog->comments"/>
+        {{-- latest() ဆိုတာက နောက်ဆုံးရေးတဲ့ဟာက အပေါ်ဆုံးကပြအောင်လုပ်တာ --}}
+        <x-comments :comments="$blog->comments()->latest()->paginate(3)"/>
         @endif
     <x-blogs_you_may_like :randomBlog="$randomBlog"/>
 </x-layout>

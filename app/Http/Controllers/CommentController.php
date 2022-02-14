@@ -14,12 +14,11 @@ class CommentController extends Controller
         ], [
             'comment.required'=>"Your comment shouldn't be blank."
         ]);
-        //$blog->comments() ဆိုတာက comment တစ်ခုတည်ဆောက်တာ
-        //$blog->comments() ဆိုတာက eloquent relationship အဲ့ကနေ eloquent model ကိုထပ်ဆင့်ခေါ်သုံးပြီးတော့ create() method ကိုသုံးတာ
         $blog->comments()->create([
             'body'=>request('comment'),
             'user_id'=>auth()->id()
         ]);
-        return back();
+        // comment ရေးပြီးရင် redirect ပြန်တာ blog တစ်ခု show-blade file ကိုပြန်အောင်လုပ်တာ
+        return redirect('/blogs/'.$blog->slug);
     }
 }
