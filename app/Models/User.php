@@ -41,20 +41,32 @@ class User extends Authenticatable
         return $this->hasMany(Blog::class);
     }
 
-    //Accessors
-    public function getNameAttribute($value) //getColumnAttribute()
+    public function getNameAttribute($value)
     {
         return ucwords($value);
     }
 
-    //Mutators
-    public function setPasswordAttribute($value) //setColumnAttribute()
+    public function setPasswordAttribute($value)
     {
         return $this->attributes['password']=bcrypt($value);
-    }//$this->attributes ဆိုတာက ဒီmodel/class ရဲ့ attributes တွေထဲက password ဆိုတဲ့ attribute ကိုရွေးလိုက်တာ။ Table ထဲမှာဆိုရင်တော့ column လို့ခေါ်တယ်
+    }
 
     public function subscribedBlogs()
     {
         return $this->belongsToMany(Blog::class);
+    }
+    public function isSubscribed($blog)
+    {
+        //login ဝင်ထားတဲ့ user က subscribedBlogs တွေရှိလား
+        return auth()->user()->subscribedBlogs &&
+        auth()->user()->subscribedBlogs->contains('id', $blog->id);
+        //login ဝင်ထားတဲ့ user က subscribedBlogs ထဲမှာရှိတဲ့ id column ထဲမှာ dynamic ဝင်လာတဲ့ $blog ရဲ့ id ကရှိနေလား
+        //subscribedBlogs ဆိုရင် subscribed လုပ်ထားတဲ့ blogs တွေပါတဲ့ collection တစ်ခုပြန်ရမယ်။ collection ဖြစ်တဲ့အတွက် collection ကပိုင်ဆိုင်တဲ့ method တွေထဲက contains method ကိုယူသုံးတယ်
+        //contains ထဲက id ဆိုတာက subscribed လုပ်ထားတဲ့ blogs တွေ
+        // [ <-ဒါက collection array
+            //{'id'=>1,'title'='this is title',....} <-ဒါက blog object
+            //{'id'=>3,'title'='this is title',....} <-ဒါက blog object
+        // ]
+        // id key ထဲမှာ dynamic ဝင်လာတဲ့ blog ရဲ့ id ကရှိနေလား။ ရှိနေရင် true return ပြန်တယ်။ မရှိရင် false return ပြန်တယ်
     }
 }

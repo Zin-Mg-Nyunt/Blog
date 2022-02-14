@@ -26,7 +26,14 @@
           {{ $blog->created_at->diffForHumans() }}
         </div>
         <div>
-          <button class="btn btn-secondary">Subscribe</button>
+          <form action="" method="POST">
+            {{-- condition စစ်ပြီး subscribe button ပြမလား၊ unsubscribe button ပြမလား လုပ်တာ --}}
+            @if (auth()->user()->isSubscribed($blog))
+              <button class="btn btn-danger">Unsubscribe</button>
+            @else
+              <button class="btn btn-warning">Subscribe</button>
+            @endif
+          </form>
         </div>
         <p class="lh-md mt-3">
           {{ $blog->body }}
