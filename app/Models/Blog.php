@@ -51,4 +51,14 @@ class Blog extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function unSubscribe()
+    {
+        //this ဆိုတာက အခု unsubscribe လုပ်လိုက်တဲ့ blog. အဲ့ blog ရဲ့ subscriber တွေထဲကမှ အခု login ဝင်ထားတဲ့ user ရဲ့ id ကို ဖြုတ်ချတာ
+        $this->subscriber()->detach(auth()->user()->id);
+    }
+    public function subscribe()
+    {
+        //this ဆိုတာက အခု unsubscribe လုပ်လိုက်တဲ့ blog. အဲ့ blog ရဲ့ subscriber တွေထဲကမှ အခု login ဝင်ထားတဲ့ user ရဲ့ id ကို တွဲ့ပေးလိုက်တာ
+        $this->subscriber()->attach(auth()->user()->id);
+    }
 }

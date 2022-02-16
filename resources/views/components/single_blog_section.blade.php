@@ -26,13 +26,19 @@
           {{ $blog->created_at->diffForHumans() }}
         </div>
         <div>
-          <form action="" method="POST">
-            {{-- condition စစ်ပြီး subscribe button ပြမလား၊ unsubscribe button ပြမလား လုပ်တာ --}}
-            @if (auth()->user()->isSubscribed($blog))
+          <form 
+            action="/blogs/{{ $blog->slug }}/subscription" 
+            method="POST"
+            >
+            @csrf
+            {{-- ဒီလိုမှမစစ်ထားရင် login မဝင်ထားတဲ့ user တစ်ယောက်ကဝင်လာခဲ့ရင်  isSubscribed()  method ကို auth()->user() ထဲကစစ်တာဖြစ်တဲ့အတွက် login မဝင်ထားရင် auth()->user() က null ဖြစ်နေတဲ့အတွက် error ပြတယ် --}}
+            @auth
+              @if (auth()->user()->isSubscribed($blog))
               <button class="btn btn-danger">Unsubscribe</button>
-            @else
+              @else
               <button class="btn btn-warning">Subscribe</button>
-            @endif
+              @endif
+            @endauth
           </form>
         </div>
         <p class="lh-md mt-3">

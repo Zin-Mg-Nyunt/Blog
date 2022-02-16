@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -23,5 +24,16 @@ class BlogController extends Controller
             "blog"=>$blog,
             "randomBlog"=>Blog::inRandomOrder()->take(3)->get(),
         ]);
+    }
+    public function subscriptionHandler(Blog $blog)
+    {
+        //if auth user subscribed to this blog
+        //auth()->user()->isSubscribed($blog) ဒီလိုရေးတာက user model ထဲက isSubscribed() method ကိုခေါ်သုံးတာ ဒါပေမဲ့ laravel ကဘယ်လိုထင်လဲဆိုတော့ blog model ကနေပြီးတော့ isSubscribed() method ကိုသုံးတယ်လို့ထင်ပြီး မရှိတဲ့ method ကိုခေါ်တယ်ဆိုပြီး error ပြတာ
+        if (User::find(auth()->user()->id)->isSubscribed($blog)) {
+            $blog->unSubscribe();
+        } else {
+            $blog->subscribe();
+        }
+        return back();
     }
 }
