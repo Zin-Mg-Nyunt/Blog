@@ -2,15 +2,12 @@
 {{-- @props() ဆိုတာက component တစ်ခုက ပေးလိုက်တဲ့ data တွေဝင်လာတာပါဆိုတာသိစေဖို့သုံးတာ။ default data တွေလဲသတ်မှတ်လို့ရတယ် --}}
 <div class="card">
     <img
-      src="https://creativecoder.s3.ap-southeast-1.amazonaws.com/blogs/GOLwpsybfhxH0DW8O6tRvpm4jCR6MZvDtGOFgjq0.jpg"
-      class="card-img-top"
+      src="{{ asset('/storage/'.$blog->thumbnail) }}"
       alt="..."
     />
     <div class="card-body">
       <h3 class="card-title">{{ $blog->title }}</h3>
       <p class="fs-6 text-secondary">
-        {{-- ternary operator နည်းလမ်းနဲ့ condition စစ်ပြီး mutiple query ကို ui ပိုင်းကနေလုပ်သွားတာ --}}
-        {{-- author name ကိုနှိပ်ပြီး author username နဲ့ data ရှာလိုက်တဲ့ချိန်မှာ category key နဲ့ data ရှာထားတာရှိလား ရှိရင် ပေါင်းထည့်ပေးပါ/ မရှိရင် မထည့်ပါနဲ့။ အဲ့လိုပဲ search key နဲ့ data ရှာထားတာရှိလား ရှိရင်ပေါင်းထည့်ပေးပါ/ မရှိရင် မထည့်ပါနဲ့ --}}
         <a 
           href="/?username={{ $blog->author->username }}
           {{ request('category')?'&category='.request('category'):"" }}
