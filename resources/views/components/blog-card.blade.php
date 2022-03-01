@@ -2,8 +2,9 @@
 {{-- @props() ဆိုတာက component တစ်ခုက ပေးလိုက်တဲ့ data တွေဝင်လာတာပါဆိုတာသိစေဖို့သုံးတာ။ default data တွေလဲသတ်မှတ်လို့ရတယ် --}}
 <div class="card">
     <img
-      src="{{ asset('/storage/'.$blog->thumbnail) }}"
+      src="{{ $blog->thumbnail!==null ? asset('/storage/'.$blog->thumbnail) : 'https://creativecoder.s3.ap-southeast-1.amazonaws.com/blogs/GOLwpsybfhxH0DW8O6tRvpm4jCR6MZvDtGOFgjq0.jpg' }}"
       alt="..."
+      class="card-img-top"
     />
     <div class="card-body">
       <h3 class="card-title">{{ $blog->title }}</h3>
